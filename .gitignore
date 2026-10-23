@@ -1,0 +1,6 @@
+build/
+output/
+plots/
+python/myf/_myf*.so
+__pycache__/
+data/

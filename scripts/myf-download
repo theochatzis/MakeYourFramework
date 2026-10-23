@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""Copy the files of the samples to a local directory and write a samples file that points to them.
+Only needed to work offline: the open data files can also be read directly over xrootd.
+Example: myf-download --dest data && myf-run configs/zjet_cfg.py --samples-file data/samples_local.json --sample ..."""
+import argparse
+import json
+import os
+import subprocess
+
+parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("--samples-file", default=os.path.join(os.environ.get("MYF_BASE", "."), "samples/samples.json"))
+parser.add_argument("--dest", default="data")
+args = parser.parse_args()
+
+with open(args.samples_file) as f:
+    samples = json.load(f)
+os.makedirs(args.dest, exist_ok=True)
+for name, sample in samples.items():
+    local = []
+    for url in sample["files"]:
+        target = os.path.abspath(os.path.join(args.dest, name + "_" + os.path.basename(url)))
+        if not os.path.exists(target):
+            print(f"[myf] {url}")
+            subprocess.run(["xrdcp", "--nopbar", url, target], check=True)
+        local.append(target)
+    sample["files"] = local
+out = os.path.join(args.dest, "samples_local.json")
+with open(out, "w") as f:
+    json.dump(samples, f, indent=2)
+print(f"[myf] wrote {out}")

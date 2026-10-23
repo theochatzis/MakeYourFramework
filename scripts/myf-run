@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+"""Run a configuration on one sample.
+Example: myf-run configs/zjet_cfg.py --sample DYJetsToLL_M50_amcatnlo --max-events 200000"""
+import argparse
+import os
+import runpy
+
+import myf
+
+parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("config", help="python file defining `process`")
+parser.add_argument("--sample", required=True, help="sample name in the samples file")
+parser.add_argument("--samples-file", default=os.path.join(os.environ.get("MYF_BASE", "."), "samples/samples.json"))
+parser.add_argument("--max-events", type=int, default=-1, help="stop after this many events (-1: all)")
+parser.add_argument("--outdir", default="output")
+args = parser.parse_args()
+
+process = runpy.run_path(args.config)["process"]
+sample = myf.load_samples(args.samples_file)[args.sample]
+os.makedirs(args.outdir, exist_ok=True)
+process.run(sample, os.path.join(args.outdir, f"{args.sample}.root"), args.max_events)

@@ -1,0 +1,16 @@
+# Local installation (no lxplus needed):
+#   conda env create -f environment.yml && conda activate myf && source setup.sh
+name: myf
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - root>=6.30
+  - cmake>=3.16
+  - make
+  - cxx-compiler
+  - pybind11
+  - uproot
+  - mplhep
+  - matplotlib
+  - numpy
