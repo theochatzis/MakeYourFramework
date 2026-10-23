@@ -1,7 +1,7 @@
 # MakeYourFramework (myf)
 
 A small, modular C++ analysis framework steered from python, built step by step in the tutorial
-"Build Your Own HEP Analysis Framework". Target: Z(->mumu)+jet on CMS 2016 NanoAOD open data, ending in a
+**[Build Your Own HEP Framework: a Z+jet Tutorial](docs/TUTORIAL.md)** (about 6 hours). Target: Z(->mumu)+jet on CMS 2016 NanoAOD open data, ending in a
 data/MC comparison of the dimuon mass.
 
 ```
@@ -22,3 +22,4 @@ plot_zmass.py --data output/SingleMuon_2016H.root --mc output/DYJetsToLL_M50_amc
 | `configs/`, `samples/` | the Z+jet configuration and the sample list |
 | `scripts/` | `myf-run`, `plot_zmass.py` |
 | `examples/` | `first_loop.C`, the no-framework starting point |
+| `docs/` | the tutorial and its figures |
